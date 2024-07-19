@@ -7,15 +7,24 @@ services:
       POSTGRES_USER: myuser
       POSTGRES_PASSWORD: mypassword
       POSTGRES_DB: mydatabase
-    volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "5432:5432"
+
+  liquibase:
+    image: liquibase/liquibase
+    depends_on:
+      - postgres
+    volumes:
+      - ./liquibase/changelog.yaml:/liquibase/changelog.yaml
+      - ./liquibase/liquibase.properties:/liquibase/liquibase.properties
+      - ./liquibase/postgresql-42.6.2.jar:/liquibase/postgresql.jar
+    entrypoint: ["liquibase", "--defaultsFile=/liquibase/liquibase.properties", "update"]
 
   python_app:
     build: ./python_app
     depends_on:
       - postgres
+      - liquibase
     environment:
       - POSTGRES_HOST=postgres
       - POSTGRES_PORT=5432

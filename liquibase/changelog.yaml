@@ -1,0 +1,24 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: yourname
+      changes:
+        - createTable:
+            tableName: hello_world
+            columns:
+              - column:
+                  name: id
+                  type: SERIAL
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: message
+                  type: TEXT
+                  constraints:
+                    nullable: false
+        - insert:
+            tableName: hello_world
+            columns:
+              - column:
+                  name: message
+                  value: "Hello, World!"
