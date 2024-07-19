@@ -9,6 +9,11 @@ services:
       POSTGRES_DB: mydatabase
     ports:
       - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
 
   liquibase:
     image: liquibase/liquibase
@@ -20,13 +25,20 @@ services:
       - ./liquibase/changelog-2-add_test_data.yaml:/liquibase/changelog-2-add_test_data.yaml:ro
       - ./liquibase/liquibase.properties:/liquibase/liquibase.properties:ro
       - ./liquibase/postgresql-42.6.2.jar:/liquibase/postgresql.jar:ro
-    entrypoint: ["liquibase", "--defaultsFile=/liquibase/liquibase.properties", "update"]
+    entrypoint: ["/bin/sh", "-c", "liquibase --defaultsFile=/liquibase/liquibase.properties update && tail -f /dev/null"]
+    healthcheck:
+      test: ["CMD-SHELL", "liquibase --defaultsFile=/liquibase/liquibase.properties status > /dev/null 2>&1 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   python_app:
     build: ./python_app
     depends_on:
-      - postgres
-      - liquibase
+      postgres:
+        condition: service_healthy
+      liquibase:
+        condition: service_healthy
     environment:
       - POSTGRES_HOST=postgres
       - POSTGRES_PORT=5432
