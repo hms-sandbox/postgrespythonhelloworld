@@ -15,9 +15,11 @@ services:
     depends_on:
       - postgres
     volumes:
-      - ./liquibase/changelog.yaml:/liquibase/changelog.yaml
-      - ./liquibase/liquibase.properties:/liquibase/liquibase.properties
-      - ./liquibase/postgresql-42.6.2.jar:/liquibase/postgresql.jar
+      - ./liquibase/changelog-master.yaml:/liquibase/changelog-master.yaml:ro
+      - ./liquibase/changelog-1-create_tables.yaml:/liquibase/changelog-1-create_tables.yaml:ro
+      - ./liquibase/changelog-2-add_test_data.yaml:/liquibase/changelog-2-add_test_data.yaml:ro
+      - ./liquibase/liquibase.properties:/liquibase/liquibase.properties:ro
+      - ./liquibase/postgresql-42.6.2.jar:/liquibase/postgresql.jar:ro
     entrypoint: ["liquibase", "--defaultsFile=/liquibase/liquibase.properties", "update"]
 
   python_app:

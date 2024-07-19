@@ -1,0 +1,6 @@
+databaseChangeLog:
+  - include:
+      file: changelog-1-create_tables.yaml
+
+  - include:
+      file: changelog-2-add_test_data.yaml

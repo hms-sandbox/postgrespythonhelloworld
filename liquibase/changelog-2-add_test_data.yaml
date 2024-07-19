@@ -1,0 +1,53 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2
+      author: yourname
+      changes:
+        - insert:
+            tableName: hello_world
+            columns:
+              - column:
+                  name: message
+                  value: "Hola, Mundo!" # Spanish
+        - insert:
+            tableName: hello_world
+            columns:
+              - column:
+                  name: message
+                  value: "Bonjour, le monde!" # French
+        - insert:
+            tableName: hello_world
+            columns:
+              - column:
+                  name: message
+                  value: "Hallo, Welt!" # German
+        - insert:
+            tableName: hello_world
+            columns:
+              - column:
+                  name: message
+                  value: "Ciao, mondo!" # Italian
+        - insert:
+            tableName: hello_world
+            columns:
+              - column:
+                  name: message
+                  value: "Olá, Mundo!" # Portuguese
+        - insert:
+            tableName: hello_world
+            columns:
+              - column:
+                  name: message
+                  value: "Привет, мир!" # Russian
+        - insert:
+            tableName: hello_world
+            columns:
+              - column:
+                  name: message
+                  value: "こんにちは、世界！" # Japanese
+        - insert:
+            tableName: hello_world
+            columns:
+              - column:
+                  name: message
+                  value: "你好，世界！" # Chinese

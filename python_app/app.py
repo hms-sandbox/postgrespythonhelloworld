@@ -22,8 +22,15 @@ def main():
     
     cursor = conn.cursor()
     cursor.execute('SELECT message FROM hello_world')
-    message = cursor.fetchone()[0]
-    print(message)
+    rows = cursor.fetchall()
+    for row in rows:
+        print(row)
+
+    cursor.execute('SELECT * FROM databasechangelog')
+    changelog = cursor.fetchall()
+    print("\nLiquibase changelog")
+    for log in changelog:
+        print(log)
     
     cursor.close()
     conn.close()
